@@ -1,6 +1,7 @@
 const restController = require('../controllers/restController')
 const adminController = require('../controllers/adminController')
-
+const userController = require('../controllers/userController')
+const user = require('../models/user')
 module.exports = app => {
   app.get('/', (req, res) => {
     res.redirect('/restaurants')
@@ -11,4 +12,7 @@ module.exports = app => {
     res.redirect('/admin/restaurants')
   })
   app.get('/admin/restaurants', adminController.getRestaurants)
+
+  app.get('/signup', userController.signUpPage)
+  app.post('/signup', userController.signUp)
 }
