@@ -28,12 +28,29 @@ module.exports = (app, passport) => {
   app.get('/admin', authenticatedAdmin, (req, res) => {
     res.redirect('/admin/restaurants')
   })
-  app.get('/admin/restaurants', authenticatedAdmin, adminController.getRestaurants)
+  app.get('/admin/restaurants/create', (req, res) => {
 
+  })
+  app.get('/admin/restaurants', authenticatedAdmin, adminController.getRestaurants)
+  app.get('/admin/restaurant/:id', (req, res) => {
+
+  })
   app.get('/signup', userController.signUpPage)
   app.post('/signup', userController.signUp)
 
   app.get('/signin', userController.signInPage)
   app.post('/signin', passport.authenticate('local', { failureRedirect: '/signin', failureFlash: true }), userController.signIn)
+  app.post('/admin/restaurants', (req, res) => {
+
+  })
+  app.get('/admin/restaurants/:id/edit', (req, res) => {
+
+  })
+  app.put('/admin/restaurants/:id', (req, res) => {
+
+  })
+  app.delete('/admin/restaurants/:id', (req, res) => {
+
+  })
   app.get('/logout', userController.logout)
 }
