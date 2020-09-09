@@ -4,6 +4,7 @@ const db = require('./models')
 const bodyParser = require('body-parser')
 const session = require('express-session')
 const flash = require('connect-flash')
+const passport = require('./config/passport')
 
 const app = express()
 
@@ -17,6 +18,8 @@ app.use(session({
   resave: false,
   saveUninitialized: false
 }))
+app.use(passport.initialize())
+app.use(passport.session())
 app.use(flash())
 
 app.use((req, res, next) => {
@@ -30,4 +33,4 @@ app.listen(port, () => {
   console.log(`App is running on http://localhost:${port}`)
 })
 
-require('./routes')(app)
+require('./routes')(app, passport)
