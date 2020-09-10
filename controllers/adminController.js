@@ -3,9 +3,7 @@ const Restaurant = db.Restaurant
 
 const adminController = {
   getRestaurants: (req, res) => {
-    return Restaurant.findAll({
-      raw: true
-    })
+    return Restaurant.findAll({ raw: true })
       .then(restaurants => {
         return res.render('admin/restaurants', { restaurants })
       })
@@ -30,6 +28,13 @@ const adminController = {
       .then(restaurant => {
         req.flash('success_messages', '餐廳資料已成功建立！')
         res.redirect('/admin/restaurants')
+      })
+  },
+
+  getRestaurant: (req, res) => {
+    return Restaurant.findByPk(req.params.id, { raw: true })
+      .then(restaurant => {
+        return res.render('admin/restaurant', { restaurant })
       })
   }
 }
