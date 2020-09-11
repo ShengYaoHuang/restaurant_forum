@@ -1,5 +1,6 @@
 const db = require('../models')
 const Restaurant = db.Restaurant
+const User = db.User
 const fs = require('fs')
 
 const imgur = require('imgur-node-api')
@@ -120,6 +121,41 @@ const adminController = {
             res.redirect('/admin/restaurants')
           })
       })
+  },
+
+  getUsers: (req, res) => {
+    return User.findAll({ raw: true })
+      .then(users => {
+        res.render('admin/users', { users })
+      })
+  },
+
+  putUsers: (req, res) => {
+    return User.findByPk(req.params.id)
+      .then(user => {
+        if (user.email === 'root@example.com') {
+          req.flash('error_messages', '不可變更此使用者狀態')
+          return res.redirect('/admin/users')
+        }
+        if (user.isAdmin) {
+          user.update({
+            isAdmin: false
+          })
+            .then(user => {
+              req.flash('success_messages', '已成功切換使用者身分')
+              return res.redirect('/admin/users')
+            })
+        } else {
+          user.update({
+            isAdmin: true
+          })
+            .then(user => {
+              req.flash('success_messages', '已成功切換使用者身分')
+              return res.redirect('/admin/users')
+            })
+        }
+      })
+
   }
 }
 module.exports = adminController
