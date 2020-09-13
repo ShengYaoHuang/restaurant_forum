@@ -137,25 +137,14 @@ const adminController = {
           req.flash('error_messages', '不可變更此使用者狀態')
           return res.redirect('/admin/users')
         }
-        if (user.isAdmin) {
-          user.update({
-            isAdmin: false
+        user.update({
+          isAdmin: !user.isAdmin
+        })
+          .then(user => {
+            req.flash('success_messages', '已成功切換使用者身分')
+            return res.redirect('/admin/users')
           })
-            .then(user => {
-              req.flash('success_messages', '已成功切換使用者身分')
-              return res.redirect('/admin/users')
-            })
-        } else {
-          user.update({
-            isAdmin: true
-          })
-            .then(user => {
-              req.flash('success_messages', '已成功切換使用者身分')
-              return res.redirect('/admin/users')
-            })
-        }
       })
-
   }
 }
 module.exports = adminController

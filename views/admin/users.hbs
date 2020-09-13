@@ -28,18 +28,50 @@
       <td>admin</td>
       <td>
         <form action="/admin/users/{{this.id}}?_method=PUT" method="POST" enctype="multipart/form-data">
-          <button type="submit" class="btn btn-link" onclick="alert('確認變更？')">
+          <button type="button" class="btn btn-link" data-toggle="modal" data-target="#adminToUser{{this.id}}">
             set as user
           </button>
+          <div class="modal fade" id="adminToUser{{this.id}}" tabindex="-1" role="dialog"
+            aria-labelledby="adminToUserTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="adminToUserTitle">即將變更使用者權限</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-dark">確認變更</button>
+                </div>
+              </div>
+            </div>
+          </div>
         </form>
       </td>
       {{else}}
       <td>user</td>
       <td>
         <form action="/admin/users/{{this.id}}?_method=PUT" method="POST" enctype="multipart/form-data">
-          <button type="submit" class="btn btn-link" onclick="alert('確認變更？')">
+          <button type="button" class="btn btn-link" data-toggle="modal" data-target="#userToAdmin{{this.id}}">
             set as admin
           </button>
+          <div class="modal fade" id="userToAdmin{{this.id}}" tabindex="-1" role="dialog"
+            aria-labelledby="userToAdminTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="userToAdminTitle">即將變更使用者權限</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-dark">確認變更</button>
+                </div>
+              </div>
+            </div>
+          </div>
         </form>
       </td>
       {{/if}}
