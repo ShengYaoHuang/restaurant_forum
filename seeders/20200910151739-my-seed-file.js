@@ -26,6 +26,16 @@ module.exports = {
       createdAt: new Date(),
       updatedAt: new Date()
     }], {});
+
+    await queryInterface.bulkInsert('categories', ['中式料理', '日本料理', '義大力料理', '墨西哥料理', '素食料理', '美式料理', '複合式料理'].map((item, index) =>
+      ({
+        id: index + 1,
+        name: item,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      })
+    ), {});
+
     await queryInterface.bulkInsert('Restaurants',
       Array.from({ length: 50 }).map(d =>
         ({
@@ -36,13 +46,15 @@ module.exports = {
           image: `https://loremflickr.com/320/240/restaurant,food/?random=${Math.random() * 100}`,
           description: faker.lorem.text(),
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
+          CategoryId: Math.floor(Math.random() * 5) + 1
         })
       ), {});
   },
 
   down: async (queryInterface, Sequelize) => {
     await queryInterface.bulkDelete('Users', null, {});
+    await queryInterface.bulkDelete('Categories', null, {})
     await queryInterface.bulkDelete('Restaurants', null, {});
   }
 };
