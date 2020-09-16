@@ -50,11 +50,6 @@ const userController = {
   },
 
   getUser: (req, res) => {
-    if (req.user.id !== Number(req.params.id)) {
-      req.flash('error_messages', '僅可查詢個人資料頁面。')
-      return res.redirect('back')
-    }
-
     User.findByPk(req.params.id, {
       include: [
         Comment,
@@ -67,6 +62,11 @@ const userController = {
   },
 
   editUser: (req, res) => {
+    if (req.user.id !== Number(req.params.id)) {
+      req.flash('error_messages', '僅可編輯本人資料。')
+      return res.redirect('back')
+    }
+
     User.findByPk(req.params.id)
       .then(user => {
         res.render('editUser')
