@@ -50,6 +50,8 @@ const userController = {
   },
 
   getUser: (req, res) => {
+    const checkUser = req.user.id === Number(req.params.id) ? true : false
+
     User.findByPk(req.params.id, {
       include: [
         Comment,
@@ -57,7 +59,7 @@ const userController = {
       ]
     })
       .then(user => {
-        return res.render('users', { user: user.toJSON() })
+        return res.render('users', { user: user.toJSON(), checkUser })
       })
   },
 
@@ -76,6 +78,11 @@ const userController = {
   putUser: (req, res) => {
     if (!req.body.name) {
       req.flash('error_messages', '請輸入使用者姓名')
+      return res.redirect('back')
+    }
+
+    if (req.user.id !== Number(req.params.id)) {
+      req.flash('error_messages', '僅可編輯本人資料。')
       return res.redirect('back')
     }
 
