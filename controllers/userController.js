@@ -57,12 +57,22 @@ const userController = {
 
     User.findByPk(req.params.id, {
       include: [
-        Comment,
-        { model: Comment, include: [Restaurant] }
+        { model: Comment, include: [Restaurant] },
+        { model: Restaurant, as: 'FavoritedRestaurants' },
+        { model: User, as: 'Followings' },
+        { model: User, as: 'Followers' }
       ]
     })
       .then(user => {
-        return res.render('users', { user: user.toJSON(), checkUser })
+        const uniqueCommentsId = new Set(user.Comments.map(comment => comment.RestaurantId))
+        const uniqueComments = []
+        user.Comments.forEach(comment => {
+          if (uniqueCommentsId.has(comment.RestaurantId)) {
+            uniqueComments.push(comment)
+            uniqueCommentsId.delete(comment.RestaurantId)
+          }
+        })
+        return res.render('users', { user: user.toJSON(), checkUser, uniqueComments })
       })
   },
 
