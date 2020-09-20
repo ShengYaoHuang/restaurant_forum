@@ -68,7 +68,7 @@ const userController = {
         const uniqueComments = []
         user.Comments.forEach(comment => {
           if (uniqueCommentsId.has(comment.RestaurantId)) {
-            uniqueComments.push(comment)
+            uniqueComments.push(comment.toJSON())
             uniqueCommentsId.delete(comment.RestaurantId)
           }
         })
