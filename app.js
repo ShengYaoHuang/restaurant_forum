@@ -39,4 +39,4 @@ app.listen(port, () => {
   console.log(`App is running on http://localhost:${port}`)
 })
 
-require('./routes')(app, passport)
+require('./routes')(app)
