@@ -148,6 +148,20 @@ const adminService = {
         })
     }
   },
+
+  putCategory: (req, res) => {
+    if (!req.body.name) {
+      return callback({ status: 'error', message: "請輸入餐廳名稱" })
+    } else {
+      return Category.findByPk(req.params.id)
+        .then((category) => {
+          category.update(req.body)
+            .then((category) => {
+              callback({ status: 'success', message: '已成功建立餐廳類別資料' })
+            })
+        })
+    }
+  },
 }
 
 module.exports = adminService
