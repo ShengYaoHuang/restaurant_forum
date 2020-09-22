@@ -8,5 +8,11 @@ const categoryController = {
       return res.json(data)
     })
   },
+
+  postCategories: (req, res) => {
+    adminService.postCategories(req, res, (data) => {
+      return res.json(data)
+    })
+  },
 }
 module.exports = categoryController

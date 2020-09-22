@@ -134,7 +134,20 @@ const adminService = {
           callback({ categories })
         }
       })
-  }
+  },
+
+  postCategories: (req, res, callback) => {
+    if (!req.body.name) {
+      return callback({ status: 'error', message: "請輸入餐廳名稱" })
+    } else {
+      return Category.create({
+        name: req.body.name
+      })
+        .then(categories => {
+          callback({ status: 'success', message: '已成功建立餐廳類別資料' })
+        })
+    }
+  },
 }
 
 module.exports = adminService
