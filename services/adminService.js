@@ -149,7 +149,7 @@ const adminService = {
     }
   },
 
-  putCategory: (req, res) => {
+  putCategory: (req, res, callback) => {
     if (!req.body.name) {
       return callback({ status: 'error', message: "請輸入餐廳名稱" })
     } else {
@@ -162,6 +162,16 @@ const adminService = {
         })
     }
   },
+
+  deleteCategory: (req, res, callback) => {
+    return Category.findByPk(req.params.id)
+      .then(category => {
+        category.destroy()
+          .then(category => {
+            callback({ status: 'success', message: '' })
+          })
+      })
+  }
 }
 
 module.exports = adminService
