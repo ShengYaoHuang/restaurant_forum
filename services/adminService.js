@@ -63,6 +63,48 @@ const adminService = {
     }
   },
 
+  putRestaurant: (req, res, callback) => {
+    if (!req.body.name) {
+      return callback({ status: 'error', message: "請輸入餐廳名稱" })
+    }
+
+    const { file } = req
+    if (file) {
+      imgur.setClientID(IMGUR_CLIENT_ID);
+      imgur.upload(file.path, (err, img) => {
+        return Restaurant.findByPk(req.params.id)
+          .then((restaurant) => {
+            restaurant.update({
+              name: req.body.name,
+              tel: req.body.tel,
+              address: req.body.address,
+              opening_hours: req.body.opening_hours,
+              description: req.body.description,
+              image: file ? img.data.link : restaurant.image,
+              CategoryId: req.body.categoryId
+            }).then((restaurant) => {
+              callback({ status: 'success', message: '已成功建立餐廳資料' })
+            })
+          })
+      })
+    } else {
+      return Restaurant.findByPk(req.params.id)
+        .then((restaurant) => {
+          restaurant.update({
+            name: req.body.name,
+            tel: req.body.tel,
+            address: req.body.address,
+            opening_hours: req.body.opening_hours,
+            description: req.body.description,
+            image: restaurant.image,
+            CategoryId: req.body.categoryId
+          }).then((restaurant) => {
+            callback({ status: 'success', message: '已成功建立餐廳資料' })
+          })
+        })
+    }
+  },
+
   deleteRestaurant: (req, res, callback) => {
     return Restaurant.findByPk(req.params.id)
       .then(restaurant => {
