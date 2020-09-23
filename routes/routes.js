@@ -46,9 +46,7 @@ router.delete('/like/:restaurantId', authenticated, userController.removeLike)
 router.post('/following/:userId', authenticated, userController.addFollowing)
 router.delete('/following/:userId', authenticated, userController.removeFollowing)
 
-router.get('/admin', authenticatedAdmin, (req, res) => {
-  res.redirect('/admin/restaurants')
-})
+router.get('/admin', authenticatedAdmin, (req, res) => { res.redirect('/admin/restaurants') })
 router.get('/admin/restaurants', authenticatedAdmin, adminController.getRestaurants)
 router.get('/admin/restaurants/create', authenticatedAdmin, adminController.createRestaurant)
 router.post('/admin/restaurants', authenticatedAdmin, upload.single('image'), adminController.postRestaurant)

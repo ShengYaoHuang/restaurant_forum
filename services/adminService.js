@@ -4,6 +4,7 @@ const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 const db = require('../models')
 const Restaurant = db.Restaurant
 const Category = db.Category
+const User = db.User
 
 const adminService = {
   getRestaurants: (req, res, callback) => {
@@ -169,6 +170,28 @@ const adminService = {
         category.destroy()
           .then(category => {
             callback({ status: 'success', message: '' })
+          })
+      })
+  },
+
+  getUsers: (req, res, callback) => {
+    return User.findAll({ raw: true })
+      .then(users => {
+        callback({ users })
+      })
+  },
+
+  putUsers: (req, res, callback) => {
+    return User.findByPk(req.params.id)
+      .then(user => {
+        if (user.email === 'root@example.com') {
+          return callback({ status: 'error', message: "不可變更此使用者狀態" })
+        }
+        user.update({
+          isAdmin: !user.isAdmin
+        })
+          .then(user => {
+            callback({ status: 'success', message: '已成功切換使用者身分' })
           })
       })
   }
